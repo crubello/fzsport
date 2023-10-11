@@ -1,52 +1,15 @@
+// Indice Search
+// nombre del indice test
+// coleccion del indice: fzsports.events
 
-  // agregaciones FZsports demo
-
-  // en collecion users para agrupar por username y generar users_vistos
-  
-  [
-    {
-      $group:
-        {
-          _id: "$username",
-          profile: {
-            $push: "$profile",
-          },
-        },
-    },
-    {
-      $out:
-        "users_vistos",
-    },
-  ]
-
-  // en records hacer agrupacion de torneos y equipos vistos
-  // enriquecer mediante merge a users_vistos para poder
-  // tomar ese imput y agregarlo al morelikethisque se ejecutaria en events
-
-  [
-    {
-      $group: {
-        _id: "$User ID",
-        torneos_vistos: {
-          $push: "$Torneo",
-        },
-        equipos_vistos: {
-          $push: "$Equipos",
-        },
-      },
-    },
-    {
-      $merge: {
-        into: "users_vistos",
-        on: "_id",
-        whenMatched: "merge",
-        whenNotMatched: "discard",
-      },
-    },
-  ]
+{
+  "mappings": {
+    "dynamic": true
+  }
+}
 
 
-  // More Like this en events
+// More Like this en events
 
   db.events.aggregate([
     {
@@ -70,3 +33,4 @@
       }
     }
   ])
+
