@@ -1,0 +1,50 @@
+// perfil_agosto_by_user
+
+[
+  {
+    $group: {
+      _id: "$User ID",
+      torneos_vistos: {
+        $push: "$Torneo",
+      },
+      equipos_vistos: {
+        $push: "$Equipos",
+      },
+    },
+  },
+  {
+    $out: "perfil_agosto_by_user",
+  },
+]
+
+// perfil_agosto_by_Equipos
+
+[
+  {
+    $group: {
+      _id: "$Equipos",
+      partidos_vistos: {
+        $push: "$User ID",
+      },
+    },
+  },
+  {
+    $out: "perfil_agosto_by_Equipos",
+  },
+]
+
+// perfil_agosto_by_Torneo
+
+[
+  {
+    $group: {
+      _id: "$Torneo",
+      usuarios_vieron: {
+        $push: "$User ID",
+      },
+    },
+  },
+  {
+    $out: "perfil_agosto_by_Torneo",
+  },
+]
