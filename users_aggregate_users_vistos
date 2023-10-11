@@ -1,0 +1,17 @@
+// Genera user_vistos cambia ID para que funcione el merge de records
+
+[
+  {
+    $group:
+      {
+        _id: "$username",
+        profile: {
+          $push: "$profile",
+        },
+      },
+  },
+  {
+    $out:
+      "users_vistos",
+  },
+]
