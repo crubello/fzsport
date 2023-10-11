@@ -1,0 +1,63 @@
+// awayTeam
+
+[
+  {
+    $lookup:
+      {
+        from: "teams",
+        localField: "awayTeam",
+        foreignField: "_id",
+        as: "out",
+      },
+  },
+  {
+    $project:
+      {
+        _id: 1,
+        awayTeamName: {
+          $arrayElemAt: ["$out.name", 0],
+        },
+      },
+  },
+  {
+    $merge:
+      {
+        into: "events",
+        on: "_id",
+        whenMatched: "merge",
+        whenNotMatched: "discard",
+      },
+  },
+]
+
+// homeTeam
+
+[
+  {
+    $lookup:
+      {
+        from: "teams",
+        localField: "homeTeam",
+        foreignField: "_id",
+        as: "out",
+      },
+  },
+  {
+    $project:
+      {
+        _id: 1,
+        homeTeamName: {
+          $arrayElemAt: ["$out.name", 0],
+        },
+      },
+  },
+  {
+    $merge:
+      {
+        into: "events",
+        on: "_id",
+        whenMatched: "merge",
+        whenNotMatched: "discard",
+      },
+  },
+]
